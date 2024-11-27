@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/@turbowarp/scaffolding@0.1.0/dist/scaffolding-min.js"></script>
+    <script src="player.js" defer></script>
+    <style>
+        body {
+            margin: 0;
+            font-family: sans-serif;
+            background-color: black;
+            color: white;
+            user-select: none;
+        }
+
+        [hidden] {
+            display: none !important;
+        }
+
+        progress {
+            color: white;
+            border: 1px solid white;
+            background-color: transparent;
+            height: 10px;
+            width: 200px;
+            max-width: 200px;
+        }
+
+        progress::-webkit-progress-value,
+        progress::-moz-progress-bar {
+            background-color: white;
+        }
+
+        #loadProgress {
+            margin-bottom: 0.5em;
+        }
+
+        #project {
+            width: 100vw;
+            height: 100vh;
+        }
+
+        .overlay {
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        .overlay#startOverlay {
+            cursor: pointer;
+        }
+
+        .overlay#loadOverlay {
+            background-color: black;
+        }
+
+        .green-flag {
+            width: 80px;
+            height: 80px;
+            padding: 16px;
+            border-radius: 100%;
+            background: rgba(255, 255, 255, 0.75);
+            border: 3px solid hsla(0, 100%, 100%, 1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-sizing: border-box;
+        }
+    </style>
+    <title>Mrk20200 Archive Player</title>
+</head>
+
+<body>
+    <div id="project"></div>
+    <div id="startOverlay" class="overlay" onclick="startProject();" title="Click to start" hidden>
+        <div class="green-flag">
+            <svg viewBox="0 0 16.63 17.5" width="42" height="44">
+                <defs>
+                    <style>
+                        .cls-1,
+                        .cls-2 {
+                            fill: #4cbf56;
+                            stroke: #45993d;
+                            stroke-linecap: round;
+                            stroke-linejoin: round;
+                        }
+
+                        .cls-2 {
+                            stroke-width: 1.5px;
+                        }
+                    </style>
+                </defs>
+                <path class="cls-1"
+                    d="M.75,2A6.44,6.44,0,0,1,8.44,2h0a6.44,6.44,0,0,0,7.69,0V12.4a6.44,6.44,0,0,1-7.69,0h0a6.44,6.44,0,0,0-7.69,0">
+                </path>
+                <line class="cls-2" x1="0.75" y1="16.75" x2="0.75" y2="0.75"></line>
+            </svg>
+        </div>
+    </div>
+    <div id="loadOverlay" class="overlay">
+        <div id="loadProgress"></div>
+        <span>(Powered by <a href="https://scratch.mit.edu/users/GarboMuffin/" target="_blank"
+                style="color: white;">GarboMuffin</a>'s <a href="https://github.com/TurboWarp/scaffolding/"
+                target="_blank" style="color: white;">scaffolding project</a>)</span>
+    </div>
+</body>
+
+</html>
