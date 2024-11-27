@@ -4,7 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Mrk20200 Project Archive</title>
+	<title>Project Archive | Mrk20200</title>
 	<style>
 		body {
 			font-family: system-ui, sans-serif;
@@ -45,7 +45,7 @@
 	<script>
 		addEventListener("DOMContentLoaded", () => {
 			document.querySelectorAll("sb-project").forEach((element) => {
-				element.innerHTML = element.innerText + ` (<a href="player.html?p=${element.getAttribute("file")}">Play</a> | <a href="${element.getAttribute("file")}.sb3">Download</a>)`
+				element.innerHTML = element.innerText + ` (<a href="player.html?file=${element.getAttribute("file")}">Play</a> | <a href="${element.getAttribute("file")}.sb3">Download</a>)`
 			});
 		});
 

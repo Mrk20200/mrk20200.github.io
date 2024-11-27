@@ -1,9 +1,14 @@
 const scaffolding = new Scaffolding.Scaffolding();
+const searchParams = new URL(location.href).searchParams;
 const startOverlay = document.getElementById("startOverlay");
 const loadOverlay = document.getElementById("loadOverlay");
 const progress = document.createElement("progress");
+const progressText = document.getElementById("loadProgressText");
 progress.value = 0;
 progress.max = 1;
+
+const greenFlagControl = document.getElementById("green-flag-button");
+const stopAllControl = document.getElementById("stop-all-button");
 
 async function getProjectData(projectLocation) {
 	document.getElementById("loadProgress").append(progress);
@@ -27,7 +32,8 @@ async function getProjectData(projectLocation) {
 
 			chunks.push(value);
 			recievedLength += value.length;
-			progress.value += value.length;
+			progress.value = recievedLength;
+			progressText.innerText = `Downloading project (${Math.floor((recievedLength/contentLength)*100)}%) ...`;
 		}
 
 		let data = new Uint8Array(recievedLength);
@@ -51,6 +57,7 @@ function finished_loading() {
 function update_progress(current, max) {
 	progress.value = max + current;
 	progress.max = max * 2;
+	progressText.innerText = `Loading assets (${current}/${max}) ...`;
 }
 
 async function loadProject(projectLocation) {
@@ -68,10 +75,23 @@ function init() {
 	scaffolding.shouldConnectPeripherals = true;
 	scaffolding.usePackagedRuntime = false;
 	scaffolding.setup();
+
+	greenFlagControl.addEventListener("click", () => {
+		scaffolding.greenFlag();
+	});
+	stopAllControl.addEventListener("click", () => {
+		scaffolding.stopAll();
+	});
+	scaffolding.addEventListener("PROJECT_RUN_START", () => {
+		greenFlagControl.classList.add("active");
+	});
+	scaffolding.addEventListener("PROJECT_RUN_STOP", () => {
+		greenFlagControl.classList.remove("active");
+	});
+
 	scaffolding.appendTo(document.getElementById('project'));
 
-	let searchParams = new URL(location.href).searchParams;
-	loadProject(`${searchParams.get("p")}.sb3`);
+	loadProject(`${searchParams.get("file")}.sb3`);
 }
 
 function startProject() {
