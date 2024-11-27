@@ -1,15 +1,70 @@
-<style>body{font-family:system-ui,sans-serif;} a{display:block;}</style>
-Mrk20200 Project Archive (yes, this looks barebones):<br>
-<ul>
-  
-  <li>Draw: The Sequel Level Editor (note: version numbers are approximated)
-    <a href="">9/8/2024 (a0.1)</a>
-    <a href="">9/9/2024 (a0.2)</a>
-    <a href="">9/12/2024 (a0.6)</a>
-    <a href="">9/15/2024 (a0.8)</a>
-    <a href="">9/19/2024 (a0.13)</a>
-    <a href="">9/20/2024 (a0.14)</a>
-    <a href="">9/23/2024 (a0.20)</a>
-  </li>
+<!DOCTYPE html>
+<html lang="en">
 
-</ul>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Mrk20200 Project Archive</title>
+	<style>
+		body {
+			font-family: sans-serif;
+			display: flex;
+			align-items: center;
+			flex-direction: column;
+			justify-content: flex-start;
+			width: 100vw;
+			height: 100vh;
+		}
+
+		main {
+			max-width: 600px;
+		}
+
+		h1 {
+			text-align: center;
+		}
+
+		sb-project {
+			display: block;
+			font-weight: normal;
+		}
+
+		li {
+			margin-bottom: 0.5em;
+			font-weight: bold;
+		}
+	</style>
+	<script>
+		addEventListener("DOMContentLoaded", () => {
+			document.querySelectorAll("sb-project").forEach((element) => {
+				element.innerHTML = element.innerText + ` (<a href="player.html?p=${element.getAttribute("file")}">Play</a> | <a href="${element.getAttribute("file")}.sb3">Download</a>)`
+			});
+		});
+
+	</script>
+
+</head>
+
+<body>
+	<h1>Mrk20200 Project Archive</h1>
+	<main>
+		<p>
+			This is an archive of older versions of my projects! (may include projects from other Scratchers)
+		</p>
+		<ul>
+			<li>Draw: The Sequel Level Editor
+				<sb-project file="dtsle/a0.1">9/8/2024 (a0.1)</sb-project>
+				<sb-project file="dtsle/a0.2">9/9/2024 (a0.2)</sb-project>
+				<sb-project file="dtsle/a0.7">9/12/2024 (a0.7)</sb-project>
+				<sb-project file="dtsle/a0.9">9/15/2024 (a0.9)</sb-project>
+				<sb-project file="dtsle/a0.15">9/20/2024 (a0.15)</sb-project>
+				<sb-project file="dtsle/b0.28">11/25/2024 (b0.28)</sb-project>
+			</li>
+			<!--<li>BONUS: Draw: The Sequel (by <a href="https://scratch.mit.edu/users/CoolGuyBug" target="_blank">@CoolGuyBug</a>)
+				<sb-project file="dts">9/6/2024</sb-project>
+			</li>-->
+		</ul>
+	</main>
+</body>
+
+</html>
