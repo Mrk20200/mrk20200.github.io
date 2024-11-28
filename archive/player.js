@@ -87,7 +87,7 @@ function init() {
 
 	scaffolding.appendTo(document.getElementById('project'));
 
-	loadProject(searchParams.get("file"));
+	loadProject(`https://raw.githubusercontent.com/Mrk20200/scratch-archive/main/${searchParams.get("file")}`);
 }
 
 function startProject() {
