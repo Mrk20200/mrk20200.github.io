@@ -12,24 +12,30 @@
 			align-items: center;
 			flex-direction: column;
 			justify-content: flex-start;
-			width: 100vw;
-			height: 100vh;
+			width: 100%;
+			height: 100%;
 			margin: 0;
 		}
 
 		main {
+			margin: 0 1em;
 			max-width: 600px;
 		}
 
 		header {
 			background-image: linear-gradient(to bottom right, #007DE4, #001F39);
 			color: white;
-			width: 100vw;
+			width: 100%;
 		}
-		
+
 		h1 {
 			text-align: center;
 			margin: 1em 0;
+		}
+
+		li {
+			margin-bottom: 0.5em;
+			font-weight: bold;
 		}
 
 		sb-project {
@@ -37,18 +43,17 @@
 			font-weight: normal;
 		}
 
-		li {
-			margin-bottom: 0.5em;
-			font-weight: bold;
-		}
 	</style>
 	<script>
 		addEventListener("DOMContentLoaded", () => {
 			document.querySelectorAll("sb-project").forEach((element) => {
-				element.innerHTML = element.innerText + ` (<a href="player.html?file=${element.getAttribute("file")}">Play</a> | <a href="${element.getAttribute("file")}.sb3">Download</a>)`
+				let file = element.getAttribute("file");
+				if (!file.endsWith(".json")) {
+					file += ".sb3";
+				}
+				element.innerHTML = element.innerText + ` (<a href="player.html?file=${file}">Play</a> | <a href="${file}">Download</a>)`;
 			});
 		});
-
 	</script>
 
 </head>
@@ -59,10 +64,11 @@
 	</header>
 	<main>
 		<p>
-			This is an archive of older versions of my projects! (may include projects from other Scratchers)
+			These are older versions of my projects on Scratch!<br>
+			Note: There may not be many of these because I usually don't archive them often.
 		</p>
 		<ul>
-			<li>Draw: The Sequel Level Editor
+			<li>Draw: The Sequel Level Editor (<a href="https://scratch.mit.edu/projects/1064658906/">Current</a>)
 				<sb-project file="dtsle/a0.1">9/8/2024 (a0.1)</sb-project>
 				<sb-project file="dtsle/a0.2">9/9/2024 (a0.2)</sb-project>
 				<sb-project file="dtsle/a0.7">9/12/2024 (a0.7)</sb-project>
@@ -70,9 +76,9 @@
 				<sb-project file="dtsle/a0.15">9/20/2024 (a0.15)</sb-project>
 				<sb-project file="dtsle/b0.28">11/25/2024 (b0.28)</sb-project>
 			</li>
-			<!--<li>BONUS: Draw: The Sequel (by <a href="https://scratch.mit.edu/users/CoolGuyBug" target="_blank">@CoolGuyBug</a>)
-				<sb-project file="dts">9/6/2024</sb-project>
-			</li>-->
+			<li>BONUS: Draw: The Sequel (<a href="https://coolguybug.itch.io/draw-the-sequel">Current</a>, by <a href="https://scratch.mit.edu/users/CoolGuyBug" target="_blank">@CoolGuyBug</a>)
+				<sb-project file="dts.json">9/6/2024</sb-project>
+			</li>
 		</ul>
 	</main>
 </body>

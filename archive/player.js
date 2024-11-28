@@ -33,7 +33,7 @@ async function getProjectData(projectLocation) {
 			chunks.push(value);
 			recievedLength += value.length;
 			progress.value = recievedLength;
-			progressText.innerText = `Downloading project (${Math.floor((recievedLength/contentLength)*100)}%) ...`;
+			progressText.innerText = `Downloading project (${Math.floor((recievedLength / contentLength) * 100)}%) ...`;
 		}
 
 		let data = new Uint8Array(recievedLength);
@@ -89,9 +89,15 @@ function init() {
 		greenFlagControl.classList.remove("active");
 	});
 
+	const storage = scaffolding.storage;
+	storage.addWebStore(
+		[storage.AssetType.ImageVector, storage.AssetType.ImageBitmap, storage.AssetType.Sound],
+		(asset) => `https://assets.scratch.mit.edu/internalapi/asset/${asset.assetId}.${asset.dataFormat}/get/`
+	);
+
 	scaffolding.appendTo(document.getElementById('project'));
 
-	loadProject(`${searchParams.get("file")}.sb3`);
+	loadProject(searchParams.get("file"));
 }
 
 function startProject() {
