@@ -2,16 +2,12 @@ const scaffolding = new Scaffolding.Scaffolding();
 const searchParams = new URL(location.href).searchParams;
 const startOverlay = document.getElementById("startOverlay");
 const loadOverlay = document.getElementById("loadOverlay");
-const progress = document.createElement("progress");
+const progress = document.getElementById("loadProgress");
 const progressText = document.getElementById("loadProgressText");
-progress.value = 0;
-progress.max = 1;
-
 const greenFlagControl = document.getElementById("green-flag-button");
 const stopAllControl = document.getElementById("stop-all-button");
 
 async function getProjectData(projectLocation) {
-	document.getElementById("loadProgress").append(progress);
 	try {
 		const response = await fetch(projectLocation);
 		if (!response.ok) {
@@ -76,12 +72,6 @@ function init() {
 	scaffolding.usePackagedRuntime = false;
 	scaffolding.setup();
 
-	greenFlagControl.addEventListener("click", () => {
-		scaffolding.greenFlag();
-	});
-	stopAllControl.addEventListener("click", () => {
-		scaffolding.stopAll();
-	});
 	scaffolding.addEventListener("PROJECT_RUN_START", () => {
 		greenFlagControl.classList.add("active");
 	});
@@ -103,6 +93,10 @@ function init() {
 function startProject() {
 	startOverlay.hidden = true;
 	scaffolding.greenFlag();
+}
+
+function stopProject() {
+	scaffolding.stopAll();
 }
 
 addEventListener("DOMContentLoaded", () => {
