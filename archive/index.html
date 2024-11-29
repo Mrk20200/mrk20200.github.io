@@ -100,11 +100,10 @@
 				let file = element.getAttribute("file");
 				let parts = element.getAttribute("parts");
 				let filename = file.substring(file.lastIndexOf("/") + 1, file.length) + ".sb3";
-				element.innerHTML += ` (<a href="player.html?file=${file}.json">Play</a> | `;
 				if (parts) {
-					element.innerHTML += `<a href="#" onclick="downloadParts(${parts}, 'https://raw.githubusercontent.com/Mrk20200/scratch-archive/main/${file}', '${filename}');">Download*</a>)`;
+					element.innerHTML += ` (<a href="player.html?file=${file}.json">Play</a> | <a href="#" onclick="downloadParts(${parts}, 'https://raw.githubusercontent.com/Mrk20200/scratch-archive/main/${file}', '${filename}');">Download*</a>)`;
 				} else {
-					element.innerHTML += `<a href="https://raw.githubusercontent.com/Mrk20200/scratch-archive/main/${file}.sb3">Download</a>)`;
+					element.innerHTML += ` (<a href="player.html?file=${file}.sb3">Play</a> | <a href="https://raw.githubusercontent.com/Mrk20200/scratch-archive/main/${file}.sb3">Download</a>)`;
 				}
 			});
 		});

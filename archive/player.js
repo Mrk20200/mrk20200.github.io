@@ -32,14 +32,8 @@ async function getProjectData(projectLocation) {
 			progressText.innerText = `Downloading project (${Math.floor(Math.min(recievedLength / contentLength, 1) * 100)}%) ...`;
 		}
 
-		let data = new Uint8Array(recievedLength);
-		let position = 0;
-
-		for (let chunk of chunks) {
-			data.set(chunk, position);
-			position += chunk.length;
-		}
-		return data;
+		let data = new Blob(chunks, {type: "application/x.scratch.sb3"});
+		return await data.arrayBuffer();
 	} catch (error) {
 		loadOverlay.innerText = `Failed to load project: ${error.message}`;
 	}
@@ -58,9 +52,11 @@ function update_progress(current, max) {
 
 async function loadProject(projectLocation) {
 	const project = await getProjectData(projectLocation);
-	scaffolding.vm.on("ASSET_PROGRESS", update_progress);
-	scaffolding.vm.runtime.on("PROJECT_LOADED", finished_loading);
-	scaffolding.loadProject(project);
+	if (project) {
+		scaffolding.vm.on("ASSET_PROGRESS", update_progress);
+		scaffolding.vm.runtime.on("PROJECT_LOADED", finished_loading);
+		scaffolding.loadProject(project);
+	}
 };
 
 function init() {
