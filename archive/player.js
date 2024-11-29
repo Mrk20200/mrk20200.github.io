@@ -32,7 +32,7 @@ async function getProjectData(projectLocation) {
 			progressText.innerText = `Downloading project (${Math.floor(Math.min(recievedLength / contentLength, 1) * 100)}%) ...`;
 		}
 
-		let data = new Blob(chunks, {type: "application/x.scratch.sb3"});
+		let data = new Blob(chunks, { type: "application/x.scratch.sb3" });
 		return await data.arrayBuffer();
 	} catch (error) {
 		loadOverlay.innerText = `Failed to load project: ${error.message}`;
@@ -60,12 +60,7 @@ async function loadProject(projectLocation) {
 };
 
 function init() {
-	scaffolding.width = 480;
-	scaffolding.height = 360;
-	scaffolding.resizeMode = 'preserve-ratio';
-	scaffolding.editableLists = false;
-	scaffolding.shouldConnectPeripherals = true;
-	scaffolding.usePackagedRuntime = false;
+	scaffolding.usePackagedRuntime = true;
 	scaffolding.setup();
 
 	scaffolding.addEventListener("PROJECT_RUN_START", () => {
@@ -95,10 +90,8 @@ function stopProject() {
 	scaffolding.stopAll();
 }
 
-addEventListener("DOMContentLoaded", () => {
-	try {
-		init();
-	} catch (error) {
-		loadOverlay.innerText = `Failed to load project: ${error.message}`;
-	}
-});
+try {
+	init();
+} catch (error) {
+	loadOverlay.innerText = `Failed to load project: ${error.message}`;
+}

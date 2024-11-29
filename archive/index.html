@@ -37,13 +37,12 @@
 			margin: 1em 0;
 		}
 
-		li {
-			margin-bottom: 0.5em;
-			font-weight: bold;
+		h2 {
+			margin-bottom: 0;
 		}
 
-		li > * {
-			font-weight: normal;
+		li {
+			margin-bottom: 0.5em;
 		}
 
 		sb-project {
@@ -74,7 +73,7 @@
 			background-color: white;
 		}
 
-		#loadOverlay > progress {
+		#loadOverlay>progress {
 			margin-bottom: 0.5em;
 		}
 
@@ -94,48 +93,7 @@
 			color: white;
 		}
 	</style>
-	<script>
-		addEventListener("DOMContentLoaded", () => {
-			document.querySelectorAll("sb-project").forEach((element) => {
-				let file = element.getAttribute("file");
-				let parts = element.getAttribute("parts");
-				let filename = file.substring(file.lastIndexOf("/") + 1, file.length) + ".sb3";
-				if (parts) {
-					element.innerHTML += ` (<a href="player.html?file=${file}.json">Play</a> | <a href="#" onclick="downloadParts(${parts}, 'https://raw.githubusercontent.com/Mrk20200/scratch-archive/main/${file}', '${filename}');">Download*</a>)`;
-				} else {
-					element.innerHTML += ` (<a href="player.html?file=${file}.sb3">Play</a> | <a href="https://raw.githubusercontent.com/Mrk20200/scratch-archive/main/${file}.sb3">Download</a>)`;
-				}
-			});
-		});
-
-		async function downloadParts(parts, file, fileName) {
-			document.getElementById("loadOverlay").hidden = false;
-			let progress = document.getElementById("loadProgress");
-			let progressText = document.getElementById("loadProgressText");
-			progress.max = parts;
-
-			let dataChunks = [];
-			for (let i = 1; i <= parts; i++) {
-				progress.value = i - 1;
-				progressText.innerText = `Downloading project (${i - 1}/${parts}) ...`;
-				let response = await fetch(`${file}_part${i}.sb3`);
-				if (!response.ok) {
-					document.getElementById("loadProgress").hidden = true;
-					alert(`Got HTTP error ${response.status} while fetching part ${i}/${parts}!`);
-					throw new Error(`Got HTTP error ${response.status} while fetching part ${i}/${parts}!`);
-				}
-				dataChunks.push(await response.arrayBuffer());
-			}
-			let project = new Blob(dataChunks, {type: "application/x.scratch.sb3"});
-			let anchor = document.createElement("a");
-			anchor.href = URL.createObjectURL(project);
-			anchor.download = fileName;
-			anchor.click();
-			setTimeout(URL.revokeObjectURL.bind(anchor.href), 5000);
-			document.getElementById("loadOverlay").hidden = true;
-		}
-	</script>
-
+	<script src="index.js"></script>
 </head>
 
 <body>
@@ -144,12 +102,13 @@
 	</header>
 	<main>
 		<p>
-			These are older versions of my projects on Scratch!<br>
+			This is a very small archive of some Scratch projects! (some not made by me)<br>
 			Note: There may not be many of these because I usually don't archive them often.
 		</p>
+		<noscript><div><b>You need to have JavaScript enabled to use this page!</b></div></noscript>
 		<h2>Older Project Versions</h2>
 		<ul>
-			<li>Draw: The Sequel Level Editor (<a href="https://scratch.mit.edu/projects/1064658906/">Current</a>)
+			<li><b>Draw: The Sequel Level Editor</b> (<a href="https://scratch.mit.edu/projects/1064658906/">Current Version</a>)
 				<sb-project file="dtsle/a0.1">9/8/2024 (a0.1)</sb-project>
 				<sb-project file="dtsle/a0.2">9/9/2024 (a0.2)</sb-project>
 				<sb-project file="dtsle/a0.7">9/12/2024 (a0.7)</sb-project>
@@ -157,8 +116,7 @@
 				<sb-project file="dtsle/a0.15">9/20/2024 (a0.15)</sb-project>
 				<sb-project file="dtsle/b0.28">11/25/2024 (b0.28)</sb-project>
 			</li>
-			<li>BONUS: Draw: The Sequel (<a href="https://coolguybug.itch.io/draw-the-sequel">Current</a>, by <a
-					href="https://scratch.mit.edu/users/CoolGuyBug" target="_blank">@CoolGuyBug</a>)
+			<li><b>Draw: The Sequel</b> (By <a href="https://scratch.mit.edu/users/CoolGuyBug">@CoolGuyBug</a>) (<a href="https://coolguybug.itch.io/draw-the-sequel">Current Version</a>)
 				<sb-project file="dts/9-2-2024" parts="3">9/2/2024</sb-project>
 				<sb-project file="dts/9-13-2024" parts="3">9/13/2024</sb-project>
 				<sb-project file="dts/9-19-2024" parts="3">9/19/2024</sb-project>
