@@ -28,7 +28,7 @@ async function getProjectData(projectLocation) {
 
 			chunks.push(value);
 			recievedLength += value.length;
-			progress.value = recievedLength;
+			progress.value = Math.min(recievedLength, contentLength);
 			progressText.innerText = `Downloading project (${Math.floor(Math.min(recievedLength / contentLength, 1) * 100)}%) ...`;
 		}
 
