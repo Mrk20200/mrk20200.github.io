@@ -6,6 +6,10 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Project Archive | Mrk20200</title>
 	<style>
+		[hidden] {
+			display: none !important;
+		}
+
 		body {
 			font-family: system-ui, sans-serif;
 			display: flex;
@@ -38,28 +42,106 @@
 			font-weight: bold;
 		}
 
+		li > * {
+			font-weight: normal;
+		}
+
 		sb-project {
 			display: block;
-			font-weight: normal;
+		}
+
+		/* Loading styles */
+		progress {
+			color: white;
+			border: 1px solid white;
+			background-color: transparent;
+			height: 10px;
+			width: 200px;
+			max-width: 200px;
+			-webkit-appearance: none;
+			appearance: none;
+		}
+
+		progress::-webkit-progress-bar {
+			background-color: transparent;
+		}
+
+		progress::-webkit-progress-value {
+			background-color: white;
+		}
+
+		progress::-moz-progress-bar {
+			background-color: white;
+		}
+
+		#loadOverlay > progress {
+			margin-bottom: 0.5em;
+		}
+
+		.overlay {
+			width: 100vw;
+			height: 100vh;
+			background-color: rgba(0, 0, 0, 0.7);
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			text-align: center;
+			z-index: 999;
+			position: absolute;
+			left: 0;
+			top: 0;
+			color: white;
 		}
 	</style>
 	<script>
 		addEventListener("DOMContentLoaded", () => {
 			document.querySelectorAll("sb-project").forEach((element) => {
 				let file = element.getAttribute("file");
-				if (!file.endsWith(".json")) {
-					file += ".sb3";
+				let parts = element.getAttribute("parts");
+				let filename = file.substring(file.lastIndexOf("/") + 1, file.length) + ".sb3";
+				element.innerHTML += ` (<a href="player.html?file=${file}.json">Play</a> | `;
+				if (parts) {
+					element.innerHTML += `<a href="#" onclick="downloadParts(${parts}, 'https://raw.githubusercontent.com/Mrk20200/scratch-archive/main/${file}', '${filename}');">Download*</a>)`;
+				} else {
+					element.innerHTML += `<a href="https://raw.githubusercontent.com/Mrk20200/scratch-archive/main/${file}.sb3">Download</a>)`;
 				}
-				element.innerHTML = element.innerText + ` (<a href="player.html?file=${file}">Play</a> | <a href="${file}">Download</a>)`;
 			});
 		});
+
+		async function downloadParts(parts, file, fileName) {
+			document.getElementById("loadOverlay").hidden = false;
+			let progress = document.getElementById("loadProgress");
+			let progressText = document.getElementById("loadProgressText");
+			progress.max = parts;
+
+			let dataChunks = [];
+			for (let i = 1; i <= parts; i++) {
+				progress.value = i - 1;
+				progressText.innerText = `Downloading project (${i - 1}/${parts}) ...`;
+				let response = await fetch(`${file}_part${i}.sb3`);
+				if (!response.ok) {
+					document.getElementById("loadProgress").hidden = true;
+					alert(`Got HTTP error ${response.status} while fetching part ${i}/${parts}!`);
+					throw new Error(`Got HTTP error ${response.status} while fetching part ${i}/${parts}!`);
+				}
+				dataChunks.push(await response.arrayBuffer());
+			}
+			let project = new Blob(dataChunks, {type: "application/x.scratch.sb3"});
+			let anchor = document.createElement("a");
+			anchor.href = URL.createObjectURL(project);
+			anchor.download = fileName;
+			anchor.click();
+			setTimeout(URL.revokeObjectURL.bind(anchor.href), 5000);
+			document.getElementById("loadOverlay").hidden = true;
+		}
 	</script>
 
 </head>
 
 <body>
 	<header>
-		<h1>Mrk20200 Project Archive</h1>
+		<h1>Mrk20200's Project Archive</h1>
 	</header>
 	<main>
 		<p>
@@ -78,11 +160,20 @@
 			</li>
 			<li>BONUS: Draw: The Sequel (<a href="https://coolguybug.itch.io/draw-the-sequel">Current</a>, by <a
 					href="https://scratch.mit.edu/users/CoolGuyBug" target="_blank">@CoolGuyBug</a>)
-				<sb-project file="dts/9.2.2024.json">9/2/2024</sb-project>
-				<sb-project file="dts/11.7.2024.json">11/7/2024</sb-project>
+				<sb-project file="dts/9-2-2024" parts="3">9/2/2024</sb-project>
+				<sb-project file="dts/9-13-2024" parts="3">9/13/2024</sb-project>
+				<sb-project file="dts/9-19-2024" parts="3">9/19/2024</sb-project>
+				<sb-project file="dts/11-7-2024" parts="3">11/7/2024</sb-project>
 			</li>
 		</ul>
+
+		<i>* bigger than 100MB</i>
 	</main>
+	<div id="loadOverlay" class="overlay" hidden>
+		<progress id="loadProgress" value="0" max="1"></progress>
+		<div id="loadProgressText">Starting download...</div>
+		<div>(This project has to be downloaded in parts because it's bigger than 100MB)</div>
+	</div>
 </body>
 
 </html>
