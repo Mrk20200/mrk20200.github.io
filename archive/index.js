@@ -4,7 +4,7 @@ addEventListener("DOMContentLoaded", () => {
         let parts = element.getAttribute("parts");
         let filename = file.substring(file.lastIndexOf("/") + 1, file.length) + ".sb3";
         if (parts) {
-            element.innerHTML += ` (<a href="player.html?file=${file}.json">Play</a> | <a href="#${filename}" onclick="downloadParts(${parts}, 'https://raw.githubusercontent.com/Mrk20200/scratch-archive/main/${file}', '${filename}');">Download*</a>)`;
+            element.innerHTML += ` (<a href="player.html?file=${file}.json">Play</a> | <a href="#${file}" onclick="downloadParts(${parts}, 'https://raw.githubusercontent.com/Mrk20200/scratch-archive/main/${file}', '${filename}');">Download*</a>)`;
         } else {
             element.innerHTML += ` (<a href="player.html?file=${file}.sb3">Play</a> | <a href="https://raw.githubusercontent.com/Mrk20200/scratch-archive/main/${file}.sb3">Download</a>)`;
         }
